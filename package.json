@@ -1,0 +1,28 @@
+{
+  "name": "lab-optional-users",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaniTOLETUM/lab-optional-users.git",
+    "dev": "nodemon ./app.js -e js, hbs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DaniTOLETUM/lab-optional-users/issues"
+  },
+  "homepage": "https://github.com/DaniTOLETUM/lab-optional-users#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "hbs": "^4.0.4",
+    "mongose": "0.0.2-security"
+  }
+}
