@@ -38,32 +38,20 @@ app.get("/create-user", (request, response) => {
   response.render(`${__dirname}/views/create-user.hbs`);
 });
 
-// app.get("/list-user", (request, response) => {
-//   response.render(`${__dirname}/views/list-user.hbs`);
-// });
 
-
-
-// Post (create) new user to dataBase from the form
+// POST (CREATE) NEW USER FROM FORM
 app.post("/user", (req, res) => {
   var user = new Users(req.body);
   console.log(user);
   Users.create(user).then(userData => {
     console.log("my user is in data base", userData);
+    res.redirect("/create-user");
   }).catch(err => {
     console.log(err, " Error");
   })
 })
 
-// Get all users from DB
-// app.get('/list-users', function (req, res) {
-//   users.find({}, function (err, users) {
-//     res.render("list-users.hbs", {
-//       users: users
-//     });
-//   });
-// });
-
+// GET ALL USERS FROM DB AND SHOW THEM IN THE LIST-USER PAGE
 app.get("/list-user", (req, res) => {
   Users.find({}) //look for in DB. Aqui hay que poner un método para obtener los datos desde la BD. Users es como hemos llamado el modelo, pero la colección en la BD también se llama "users"
     .then(dataUser => { //dataUser es solo el nombre que asignamos a los datos
