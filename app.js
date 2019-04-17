@@ -19,15 +19,32 @@ mongoose.connect('mongodb://localhost/usersAPP', {
   });
 
 app.use(parser.json());
-app.set("views", __dirname + "/views");
+app.set('views', __dirname + '/views');
+app.set('view engine', 'hbs');
+hbs.registerPartials(__dirname + "/views/partials");
 app.use(express.static(__dirname + "/public"));
-app.set("view engine", hbs);
 
 
+// render the pages
 app.get("/", (req, res) => {
   res.render("home.hbs");
 });
 
+app.get("/dashboard", (request, response) => {
+  response.render(`${__dirname}/views/dashboard.hbs`);
+});
+
+app.get("/create-user", (request, response) => {
+  response.render(`${__dirname}/views/create-user.hbs`);
+});
+
+// app.get("/list-user", (request, response) => {
+//   response.render(`${__dirname}/views/list-user.hbs`);
+// });
+
+
+
+// Post (create) new user to dataBase from the form
 app.post("/user", (req, res) => {
   var user = new Users(req.body);
   console.log(user);
@@ -38,19 +55,30 @@ app.post("/user", (req, res) => {
   })
 })
 
+// Get all users from DB
+// app.get('/list-users', function (req, res) {
+//   users.find({}, function (err, users) {
+//     res.render("list-users.hbs", {
+//       users: users
+//     });
+//   });
+// });
 
+app.get("/list-user", (req, res) => {
+  Users.find({}) //look for in DB. Aqui hay que poner un método para obtener los datos desde la BD. Users es como hemos llamado el modelo, pero la colección en la BD también se llama "users"
+    .then(dataUser => { //dataUser es solo el nombre que asignamos a los datos
+      // res.json(dataUser) //para comprobar si recibimos los datos 
+      console.log("The received data from the DB: ", dataUser);
+      res.render("list-user.hbs", { //En la respuesta, pasamos el archivo hbs donde queremos que se carguen los datos así como los datos. Es lo que queremos que haga. En este caso "mostrar la página list-user.hbs y pasamos los dataUser para que se muestren en ella". Ahora en la página list-user.hbs tenemos que especificar con html y moustache, qué datos queremos mostrar.
+        dataUser
+      });
+      // ----> 'HERE WHAT WE WANT TO DO AFTER RECEIVING THE DATA FROM THE DB'
+    })
+    .catch(err => { // en caso de no mostrar los datos por algún error, mostrar el error.
+      console.log("The error while searching users occurred: ", err);
+    })
+});
 
-// TO CREATE A NEW USER IN DB //
-// app.get("/home.hbs", (req, res) => {
-//   const data = {
-//     scripts: ["form_product.js", "list_products.js"]
-//   };
-//   res.Users.Create({
-// }).then(usersData => {
-//   console.log("The new user is in data base", usersData);
-// }).catch(err => {
-//   console.log(err, " Error");
-// })
 
 
 
